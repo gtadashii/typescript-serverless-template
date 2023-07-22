@@ -1,20 +1,32 @@
-service: typescript-serverless-skell
+service: typescript-serverless-template
 
-configValidationMode: error
+package:
+  patterns: ${file(./slsignore.yml)}
 
 plugins:
+  - serverless-esbuild
   - serverless-offline
-  - serverless-webpack
-
-custom:
-  webpack:
-    webpackConfig: ./webpack.config.js
-    includeModules: true
+  - serverless-plugin-log-retention
+  - serverless-iam-roles-per-function
 
 provider:
   name: aws
-  runtime: nodejs14.x
-  lambdaHashingVersion: 20201221
+  runtime: nodejs18.x
+  versionFunctions: false
+
+custom:
+  esbuild:
+    bundle: true
+    sourcemap: true
+    minify: false
+    packager: yarn
+    exclude: ['aws-sdk']
+    watch:
+      pattern: ['src/**/*.ts']
+      ignore: ['**/*.test.ts']
+  serverless-offline:
+    port: 3000
+  logRetentionInDays: 14
 
 functions:
   hello:

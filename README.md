@@ -1,2 +1,2 @@
-# Typescript Serverless Skell
-Basic template for AWS Serverless applications
+# Typescript Serverless Template
+A basic template to help build serverless projects that use AWS
